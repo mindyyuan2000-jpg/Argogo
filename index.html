@@ -1,0 +1,952 @@
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Argogo - 我的私人助手</title>
+    <script src="https://res.gemcoder.com/js/reload.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+                  theme: {
+                      extend: {
+                          colors: {
+                              fog: {
+                                  50: '#f8fafc',
+                                  100: '#f1f5f9',
+                                  200: '#e2e8f0',
+                                  300: '#cbd5e1',
+                                  400: '#94a3b8',
+                                  500: '#64748b',
+                                  600: '#475569',
+                                  700: '#334155',
+                                  800: '#1e293b',
+                                  900: '#0f172a',
+                              },
+                          },
+                          fontFamily: {
+                              sans: ['Inter', 'system-ui', 'sans-serif'],
+                          },
+                          backgroundImage: {
+                              'cloud-pattern': "url('https://picsum.photos/id/1015/1920/1080')",
+                          }
+                      },
+                  }
+              }
+    </script>
+    <style type="text/tailwindcss">
+              @layer utilities {
+                  .content-auto {
+                      content-visibility: auto;
+                  }
+                  .backdrop-blur-xs {
+                      backdrop-filter: blur(2px);
+                  }
+                  .text-shadow-sm {
+                      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+                  }
+                  .bg-cloudy {
+                      background-color: rgba(248, 250, 252, 0.85);
+                      background-image:
+                          radial-gradient(circle at 10% 20%, rgba(224, 224, 224, 0.1) 0%, transparent 20%),
+                          radial-gradient(circle at 90% 80%, rgba(224, 224, 224, 0.1) 0%, transparent 20%);
+                  }
+                  .glass-effect {
+                      background: rgba(255, 255, 255, 0.75);
+                      backdrop-filter: blur(8px);
+                      -webkit-backdrop-filter: blur(8px);
+                      border: 1px solid rgba(255, 255, 255, 0.18);
+                      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+                  }
+                  .frosted-card {
+                      background: rgba(248, 250, 252, 0.85);
+                      backdrop-filter: blur(10px);
+                      border: 1px solid rgba(226, 232, 240, 0.5);
+                      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+                      border-radius: 12px;
+                  }
+      .animate-pulse {
+                      animation: pulse 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+                  }
+                  @keyframes pulse {
+                      0%, 100% { opacity: 1; }
+                      50% { opacity: 0; }
+                  }
+              }
+    </style>
+  </head>
+  <body class="min-h-screen bg-cloudy font-sans text-fog-800 overflow-x-hidden">
+    <!-- 云层纹理背景 -->
+    <div
+      class="fixed inset-0 bg-cloud-pattern bg-cover bg-center opacity-10 -z-10"
+    ></div>
+    <div class="container mx-auto px-4 py-6 max-w-7xl">
+      <!-- 顶部标语 -->
+      <div class="text-center mb-6">
+        <h1
+          class="text-[clamp(1.75rem,4vw,2.5rem)] font-light text-fog-700 tracking-wide"
+        >
+          开启元气满满的一天
+          <span class="animate-pulse"> | </span>
+        </h1>
+      </div>
+      <!-- 顶部导航栏 -->
+      <header class="frosted-card mb-6 p-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+          <div
+            class="w-10 h-10 rounded-full bg-gradient-to-br from-fog-400 to-fog-600 flex items-center justify-center text-white"
+          >
+            <i class="fas fa-feather-alt text-xl"> </i>
+          </div>
+          <h1 class="text-2xl font-light tracking-wide text-fog-700">
+            Argogo
+            <span class="font-medium text-fog-900"> 助手 </span>
+          </h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button class="p-2 rounded-full hover:bg-fog-100 transition-colors">
+            <i class="fas fa-cog text-fog-500"> </i>
+          </button>
+          <button class="p-2 rounded-full hover:bg-fog-100 transition-colors">
+            <i class="fas fa-user-circle text-fog-500"> </i>
+          </button>
+        </div>
+      </header>
+      <!-- 主内容区 -->
+      <main class="flex flex-col md:flex-row gap-6">
+        <!-- 左侧30%区域 -->
+        <div
+          class="w-full md:w-3/10 space-y-6"
+          data-ytextravalue="extra-acmjqxq07"
+        >
+          <!-- 空白小插件区域 -->
+          <!-- 天气区域 -->
+          <div
+            class="frosted-card p-5 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+            data-ytindex="0"
+            data-ytoriginindex="0"
+          >
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-fog-600 text-sm font-medium flex items-center">
+                <i class="fas fa-cloud mr-2 text-fog-400"> </i>
+                当前天气
+              </h3>
+              <span class="text-xs text-fog-400" id="location">
+                获取位置中...
+              </span>
+            </div>
+            <div class="flex items-center justify-center py-2">
+              <div class="text-5xl mr-4" id="weather-icon">
+                <i class="fas fa-cloud text-fog-400"> </i>
+              </div>
+              <div class="text-center">
+                <div class="text-3xl font-light text-fog-800" id="temperature">
+                  --°C
+                </div>
+                <div class="text-fog-500 text-sm mt-1" id="weather-desc">
+                  加载中
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 放松小工具 -->
+          <div
+            class="frosted-card p-5 aspect-square flex flex-col items-center justify-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+          >
+            <h3 class="text-fog-600 text-sm font-medium mb-4 flex items-center">
+              <i class="fas fa-heart mr-2 text-fog-400"> </i>
+              放松小工具
+            </h3>
+            <div
+              class="w-full h-3/4 flex items-center justify-center bg-fog-50 rounded-lg mb-4 overflow-hidden"
+            >
+              <img
+                alt="放松小工具"
+                class="w-full h-full object-cover opacity-80"
+                src="https://design.gemcoder.com/staticResource/echoAiSystemImages/94fb0dc4b2c30dc8dbcabc2298c91649.png"
+              />
+            </div>
+            <button
+              class="w-full py-2 bg-fog-600 hover:bg-fog-700 text-white rounded-lg text-sm transition-colors"
+            >
+              <i class="fas fa-play-circle mr-1"> </i>
+              开始放松
+            </button>
+          </div>
+          <!-- 名言区域 -->
+          <div
+            class="frosted-card p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+            data-ytindex="4"
+            data-ytoriginindex="4"
+            data-ytparentvalue="extra-81bv72brb"
+            style="opacity: 1;"
+          >
+            <div class="flex flex-col items-center text-center" style>
+              <i class="fas fa-quote-left text-4xl text-fog-200 mb-4" style>
+              </i>
+              <blockquote
+                class="text-fog-700 text-lg font-light max-w-md"
+                style
+              >
+                行动是思想的锚
+              </blockquote>
+              <div class="w-16 h-px bg-fog-200 my-5"></div>
+              <div class="flex items-center justify-between w-full">
+                <button
+                  class="text-fog-500 hover:text-fog-700 transition-colors text-sm flex items-center"
+                >
+                  <i class="fas fa-refresh mr-1"> </i>
+                  换一句
+                </button>
+                <div class="text-fog-400 text-xs">每日名言 · 启发思考</div>
+                <button
+                  class="text-fog-500 hover:text-fog-700 transition-colors text-sm flex items-center"
+                >
+                  <i class="fas fa-heart mr-1"> </i>
+                  收藏
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 右侧70%区域 -->
+        <div
+          class="w-full md:w-7/10 space-y-6"
+          data-ytextravalue="extra-81bv72brb"
+        >
+          <!-- 待办事项清单 -->
+          <div
+            class="frosted-card p-5 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+            data-ytindex="0"
+            data-ytoriginindex="1"
+            data-ytparentvalue="extra-acmjqxq07"
+            style="opacity: 1; color: rgb(30, 41, 59); font-family: Inter, system-ui, sans-serif; font-size: 16px; font-weight: 400; font-style: normal; line-height: 24px; text-align: start; text-indent: 0px;"
+          >
+            <div class="flex justify-between items-center mb-4" style>
+              <h2 class="text-fog-500 text-sm font-medium flex items-center">
+                <i class="fas fa-check-circle mr-2"> </i>
+                待办事项
+              </h2>
+              <span
+                class="text-xs bg-fog-100 text-fog-600 px-2 py-1 rounded-full"
+                id="task-count"
+              >
+                0项
+              </span>
+            </div>
+            <div class="space-y-3 max-h-64 overflow-y-auto pr-1" id="todo-list">
+              <div class="text-center text-fog-400 text-sm py-8" style>
+                <i class="fas fa-clipboard-list text-2xl mb-2 block"> </i>
+                暂无待办事项
+              </div>
+            </div>
+            <div class="mt-4 flex">
+              <input
+                class="flex-1 px-3 py-2 rounded-l-lg border border-fog-200 focus:outline-none focus:ring-1 focus:ring-fog-400 focus:border-transparent text-sm bg-white/50"
+                id="new-task-input"
+                placeholder="添加新任务..."
+                type="text"
+              />
+              <button
+                class="bg-fog-600 hover:bg-fog-700 text-white px-3 rounded-r-lg transition-colors"
+                id="add-task-btn"
+              >
+                <i class="fas fa-plus"> </i>
+              </button>
+            </div>
+          </div>
+          <!-- 快速笔记 -->
+          <div
+            class="frosted-card p-5 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+            data-ytextravalue="extra-hn2ezokkc"
+            data-ytindex="1"
+            data-ytoriginindex="2"
+            data-ytparentvalue="extra-acmjqxq07"
+            style="opacity: 1; color: rgb(30, 41, 59); font-family: Inter, system-ui, sans-serif; font-size: 16px; font-weight: 400; font-style: normal; line-height: 24px; text-align: start; text-indent: 0px;"
+          >
+            <h2
+              class="text-fog-500 text-sm font-medium mb-4 flex items-center"
+              data-ytindex="0"
+              data-ytoriginindex="0"
+              data-ytparentvalue="extra-hn2ezokkc"
+              style="opacity: 1; color: rgb(100, 116, 139); font-family: Inter, system-ui, sans-serif; font-size: 14px; font-weight: 500; font-style: normal; line-height: 20px; text-align: start; text-indent: 0px;"
+            >
+              <i class="fas fa-sticky-note mr-2"> </i>
+              快速笔记
+            </h2>
+            <textarea
+              class="w-full h-40 p-3 bg-white/50 border border-fog-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-fog-400 focus:border-transparent resize-none"
+              data-ytindex="1"
+              data-ytoriginindex="1"
+              id="quick-note"
+              placeholder="在这里记录你的想法... 内容会自动保存"
+              rows="5"
+              style
+            >
+            </textarea>
+            <div
+              class="text-xs text-fog-400 mt-2 flex justify-between"
+              data-ytindex="2"
+              data-ytoriginindex="2"
+            >
+              <span> 自动保存 </span>
+              <span id="save-status"> 已保存 </span>
+            </div>
+          </div>
+          <!-- 禅意倒计时 -->
+          <div
+            class="frosted-card p-5 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+            data-ytindex="2"
+            data-ytoriginindex="0"
+            data-ytparentvalue="extra-81bv72brb"
+            style="opacity: 1; color: rgb(30, 41, 59); font-family: Inter, system-ui, sans-serif; font-size: 16px; font-weight: 400; font-style: normal; line-height: 24px; text-align: start; text-indent: 0px;"
+          >
+            <h2
+              class="text-fog-500 text-sm font-medium mb-4 flex items-center"
+              style
+            >
+              <i class="fas fa-hourglass-half mr-2"> </i>
+              专注时间
+            </h2>
+            <div
+              class="flex justify-center items-center py-4"
+              id="focus-timer-container"
+              style
+            >
+              <div class="text-center">
+                <div
+                  class="text-5xl font-light text-fog-800"
+                  id="timer-minutes"
+                  style
+                >
+                  45
+                </div>
+                <div class="text-fog-500 text-sm mt-1" style>分钟</div>
+              </div>
+              <div class="mx-3 text-fog-300 text-3xl">:</div>
+              <div class="text-center">
+                <div
+                  class="text-5xl font-light text-fog-800"
+                  id="timer-seconds"
+                >
+                  00
+                </div>
+                <div class="text-fog-500 text-sm mt-1">秒</div>
+              </div>
+            </div>
+            <div class="flex justify-center space-x-3 mt-4">
+              <button
+                class="px-4 py-2 bg-fog-600 hover:bg-fog-700 text-white rounded-lg text-sm transition-colors"
+                id="start-timer"
+              >
+                <i class="fas fa-play mr-1"> </i>
+                开始
+              </button>
+              <button
+                class="px-4 py-2 bg-fog-200 hover:bg-fog-300 text-fog-700 rounded-lg text-sm transition-colors"
+                id="pause-timer"
+                style
+              >
+                <i class="fas fa-pause mr-1"> </i>
+                暂停
+              </button>
+              <button
+                class="px-4 py-2 bg-fog-200 hover:bg-fog-300 text-fog-700 rounded-lg text-sm transition-colors"
+                id="reset-timer"
+              >
+                <i class="fas fa-sync-alt mr-1"> </i>
+                重置
+              </button>
+            </div>
+          </div>
+          <!-- 计算器区域 -->
+          <div
+            class="frosted-card p-5 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+            data-ytindex="3"
+            data-ytoriginindex="3"
+          >
+            <div class="flex justify-between items-center mb-4">
+              <h2 class="text-fog-500 text-sm font-medium flex items-center">
+                <i class="fas fa-calculator mr-2"> </i>
+                计算器
+              </h2>
+              <button
+                class="text-fog-400 hover:text-fog-600 transition-colors"
+                id="toggle-calculator"
+              >
+                <i class="fas fa-chevron-down" id="calculator-icon"> </i>
+              </button>
+            </div>
+            <div id="calculator-content">
+              <div class="mb-4 bg-white/50 rounded-lg p-3">
+                <input
+                  class="w-full text-right py-2 px-3 text-fog-800 text-lg bg-transparent border-none focus:outline-none"
+                  id="calculator-display"
+                  placeholder="0"
+                  readonly
+                  type="text"
+                />
+              </div>
+              <div class="grid grid-cols-4 gap-2">
+                <button
+                  class="calc-btn py-3 bg-fog-100 hover:bg-fog-200 text-fog-700 rounded-lg text-sm transition-colors"
+                  data-value="7"
+                >
+                  7
+                </button>
+                <button
+                  class="calc-btn py-3 bg-fog-100 hover:bg-fog-200 text-fog-700 rounded-lg text-sm transition-colors"
+                  data-value="8"
+                >
+                  8
+                </button>
+                <button
+                  class="calc-btn py-3 bg-fog-100 hover:bg-fog-200 text-fog-700 rounded-lg text-sm transition-colors"
+                  data-value="9"
+                >
+                  9
+                </button>
+                <button
+                  class="calc-btn py-3 bg-fog-200 hover:bg-fog-300 text-fog-700 rounded-lg text-sm transition-colors"
+                  data-value="/"
+                >
+                  ÷
+                </button>
+                <button
+                  class="calc-btn py-3 bg-fog-100 hover:bg-fog-200 text-fog-700 rounded-lg text-sm transition-colors"
+                  data-value="4"
+                >
+                  4
+                </button>
+                <button
+                  class="calc-btn py-3 bg-fog-100 hover:bg-fog-200 text-fog-700 rounded-lg text-sm transition-colors"
+                  data-value="5"
+                >
+                  5
+                </button>
+                <button
+                  class="calc-btn py-3 bg-fog-100 hover:bg-fog-200 text-fog-700 rounded-lg text-sm transition-colors"
+                  data-value="6"
+                >
+                  6
+                </button>
+                <button
+                  class="calc-btn py-3 bg-fog-200 hover:bg-fog-300 text-fog-700 rounded-lg text-sm transition-colors"
+                  data-value="*"
+                >
+                  ×
+                </button>
+                <button
+                  class="calc-btn py-3 bg-fog-100 hover:bg-fog-200 text-fog-700 rounded-lg text-sm transition-colors"
+                  data-value="1"
+                >
+                  1
+                </button>
+                <button
+                  class="calc-btn py-3 bg-fog-100 hover:bg-fog-200 text-fog-700 rounded-lg text-sm transition-colors"
+                  data-value="2"
+                >
+                  2
+                </button>
+                <button
+                  class="calc-btn py-3 bg-fog-100 hover:bg-fog-200 text-fog-700 rounded-lg text-sm transition-colors"
+                  data-value="3"
+                >
+                  3
+                </button>
+                <button
+                  class="calc-btn py-3 bg-fog-200 hover:bg-fog-300 text-fog-700 rounded-lg text-sm transition-colors"
+                  data-value="-"
+                >
+                  -
+                </button>
+                <button
+                  class="calc-btn py-3 bg-fog-100 hover:bg-fog-200 text-fog-700 rounded-lg text-sm transition-colors"
+                  data-value="0"
+                >
+                  0
+                </button>
+                <button
+                  class="calc-btn py-3 bg-fog-100 hover:bg-fog-200 text-fog-700 rounded-lg text-sm transition-colors"
+                  data-value="."
+                >
+                  .
+                </button>
+                <button
+                  class="calc-btn py-3 bg-fog-300 hover:bg-fog-400 text-white rounded-lg text-sm transition-colors"
+                  data-value="="
+                >
+                  =
+                </button>
+                <button
+                  class="calc-btn py-3 bg-fog-200 hover:bg-fog-300 text-fog-700 rounded-lg text-sm transition-colors"
+                  data-value="+"
+                >
+                  +
+                </button>
+              </div>
+              <button
+                class="w-full mt-3 py-2 bg-fog-100 hover:bg-fog-200 text-fog-700 rounded-lg text-sm transition-colors"
+                id="clear-calculator"
+              >
+                <i class="fas fa-trash-alt mr-1"> </i>
+                清除
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+      <!-- 页脚 -->
+      <footer class="mt-10 text-center text-fog-400 text-xs py-4">
+        <p>Argogo 私人助手 © 2023 | 轻量智感生活</p>
+      </footer>
+    </div>
+    <script>
+      // 页面加载时初始化渲染
+              document.addEventListener('DOMContentLoaded', () => {
+      initTodoList();
+                  initQuickNote();
+                  initFocusTimer();
+                  initCalculator();
+              });
+              // 天气功能
+              function initWeather() {
+                  // 获取用户位置
+                  if (navigator.geolocation) {
+                      navigator.geolocation.getCurrentPosition(position => {
+                          const lat = position.coords.latitude;
+                          const lon = position.coords.longitude;
+                          fetchWeatherData(lat, lon);
+                      }, error => {
+                          console.error("无法获取位置信息:", error);
+                          document.getElementById('location').textContent = "未知位置";
+                      });
+                  } else {
+                      document.getElementById('location').textContent = "浏览器不支持定位";
+                  }
+              }
+              function fetchWeatherData(lat, lon) {
+                  // 使用Open-Meteo API获取天气数据
+                  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=auto`;
+
+                  fetch(url)
+                      .then(response => response.json())
+                      .then(data => {
+                          const temperature = Math.round(data.current_weather.temperature);
+                          const weatherCode = data.current_weather.weathercode;
+                          const location = data.timezone.split('/')[1] || '当前城市';
+
+                          // 更新UI
+                          document.getElementById('temperature').textContent = `${temperature}°C`;
+                          document.getElementById('location').textContent = location;
+
+                          // 根据天气代码设置图标
+                          setWeatherIcon(weatherCode);
+                      })
+                      .catch(error => {
+                          console.error("获取天气数据失败:", error);
+                          document.getElementById('location').textContent = "获取失败";
+                      });
+              }
+              function setWeatherIcon(code) {
+                  const iconElement = document.getElementById('weather-icon');
+                  iconElement.className = 'text-5xl';
+
+                  // 根据天气代码设置不同图标
+                  if (code >= 0 && code <= 3) {
+                      // 晴天/多云
+                      iconElement.classList.add('fas', 'fa-sun', 'text-yellow-400');
+                      document.getElementById('weather-desc').textContent = "晴朗";
+                  } else if (code >= 45 && code <= 48) {
+                      // 雾
+                      iconElement.classList.add('fas', 'fa-fog', 'text-fog-400');
+                      document.getElementById('weather-desc').textContent = "有雾";
+                  } else if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) {
+                      // 雨
+                      iconElement.classList.add('fas', 'fa-cloud-rain', 'text-fog-500');
+                      document.getElementById('weather-desc').textContent = "有雨";
+                  } else if (code >= 71 && code <= 77) {
+                      // 雪
+                      iconElement.classList.add('fas', 'fa-snowflake', 'text-blue-200');
+                      document.getElementById('weather-desc').textContent = "有雪";
+                  } else if (code >= 95 && code <= 99) {
+                      // 雷雨
+                      iconElement.classList.add('fas', 'fa-bolt', 'text-purple-400');
+                      document.getElementById('weather-desc').textContent = "雷暴";
+                  } else {
+                      // 默认
+                      iconElement.classList.add('fas', 'fa-cloud', 'text-fog-400');
+                      document.getElementById('weather-desc').textContent = "多云";
+                  }
+              }
+              // 待办事项功能
+              function initTodoList() {
+                  const todoList = document.getElementById('todo-list');
+                  const newTaskInput = document.getElementById('new-task-input');
+                  const addTaskBtn = document.getElementById('add-task-btn');
+                  const taskCount = document.getElementById('task-count');
+
+                  // 从localStorage加载任务
+                  loadTasks();
+
+                  // 添加任务按钮点击事件
+                  addTaskBtn.addEventListener('click', addTask);
+
+                  // 输入框回车事件
+                  newTaskInput.addEventListener('keypress', (e) => {
+                      if (e.key === 'Enter') {
+                          addTask();
+                      }
+                  });
+
+                  // 更新任务计数
+                  updateTaskCount();
+
+                  function addTask() {
+                      const taskText = newTaskInput.value.trim();
+                      if (taskText) {
+                          const task = {
+                              id: Date.now().toString(),
+                              text: taskText,
+                              completed: false
+                          };
+
+                          // 保存到localStorage
+                          saveTask(task);
+
+                          // 添加到DOM
+                          renderTask(task);
+
+                          // 清空输入框
+                          newTaskInput.value = '';
+
+                          // 更新计数
+                          updateTaskCount();
+                      }
+                  }
+
+                  function saveTask(task) {
+                      const tasks = getTasksFromStorage();
+                      tasks.push(task);
+                      localStorage.setItem('todos', JSON.stringify(tasks));
+                  }
+
+                  function getTasksFromStorage() {
+                      const tasksJson = localStorage.getItem('todos');
+                      return tasksJson ? JSON.parse(tasksJson) : [];
+                  }
+
+                  function loadTasks() {
+                      const tasks = getTasksFromStorage();
+                      todoList.innerHTML = '';
+
+                      if (tasks.length === 0) {
+                          todoList.innerHTML = `
+
+
+
+
+
+
+
+
+      <div class="text-center text-fog-400 text-sm py-8">
+        <i class="fas fa-clipboard-list text-2xl mb-2 block">
+        </i>
+        暂无待办事项
+      </div>
+
+
+
+
+
+
+
+
+      `;
+                          return;
+                      }
+
+                      tasks.forEach(task => {
+                          renderTask(task);
+                      });
+                  }
+
+                  function renderTask(task) {
+                      const taskElement = document.createElement('div');
+                      taskElement.className = `flex items-center p-2 rounded-lg hover:bg-fog-50 transition-colors ${task.completed ? 'opacity-60' : ''}`;
+                      taskElement.dataset.taskId = task.id;
+
+                      taskElement.innerHTML = `
+
+
+
+
+
+
+
+
+      <div class="flex items-center flex-1">
+        <input type="checkbox" class="task-checkbox w-4 h-4 rounded border-fog-300 text-fog-600 focus:ring-fog-400" ${task.completed ? 'checked' : ''}>
+          <span class="ml-3 text-sm text-fog-700 ${task.completed ? 'line-through text-fog-400' : ''}">${escapeHTML(task.text)}</span>
+          </div>
+          <button class="delete-task text-fog-400 hover:text-fog-600 p-1">
+            <i class="fas fa-times">
+            </i>
+          </button>
+
+
+
+
+
+
+
+
+        `;
+
+                      // 添加事件监听
+                      const checkbox = taskElement.querySelector('.task-checkbox');
+                      checkbox.addEventListener('change', () => toggleTaskCompletion(task.id));
+
+                      const deleteBtn = taskElement.querySelector('.delete-task');
+                      deleteBtn.addEventListener('click', () => deleteTask(task.id));
+
+                      todoList.appendChild(taskElement);
+                  }
+
+                  function toggleTaskCompletion(taskId) {
+                      const tasks = getTasksFromStorage();
+                      const taskIndex = tasks.findIndex(task => task.id === taskId);
+
+                      if (taskIndex !== -1) {
+                          tasks[taskIndex].completed = !tasks[taskIndex].completed;
+                          localStorage.setItem('todos', JSON.stringify(tasks));
+
+                          // 更新UI
+                          const taskElement = todoList.querySelector(`[data-task-id="${taskId}"]`);
+                          const taskText = taskElement.querySelector('span');
+
+                          if (tasks[taskIndex].completed) {
+                              taskText.classList.add('line-through', 'text-fog-400');
+                              taskElement.classList.add('opacity-60');
+                          } else {
+                              taskText.classList.remove('line-through', 'text-fog-400');
+                              taskElement.classList.remove('opacity-60');
+                          }
+                      }
+                  }
+
+                  function deleteTask(taskId) {
+                      const tasks = getTasksFromStorage();
+                      const updatedTasks = tasks.filter(task => task.id !== taskId);
+                      localStorage.setItem('todos', JSON.stringify(updatedTasks));
+
+                      // 从DOM中移除
+                      const taskElement = todoList.querySelector(`[data-task-id="${taskId}"]`);
+                      if (taskElement) {
+                          taskElement.classList.add('opacity-0');
+                          setTimeout(() => {
+                              taskElement.remove();
+                              updateTaskCount();
+
+                              // 如果没有任务了，显示空状态
+                              if (updatedTasks.length === 0) {
+                                  loadTasks();
+                              }
+                          }, 300);
+                      }
+                  }
+
+                  function updateTaskCount() {
+                      const tasks = getTasksFromStorage();
+                      const activeTasks = tasks.filter(task => !task.completed).length;
+                      taskCount.textContent = `${activeTasks}项`;
+                  }
+
+                  function escapeHTML(text) {
+                      const div = document.createElement('div');
+                      div.textContent = text;
+                      return div.innerHTML;
+                  }
+              }
+              // 快速笔记功能
+              function initQuickNote() {
+                  const noteTextarea = document.getElementById('quick-note');
+                  const saveStatus = document.getElementById('save-status');
+
+                  // 从localStorage加载笔记
+                  const savedNote = localStorage.getItem('quickNote');
+                  if (savedNote) {
+                      noteTextarea.value = savedNote;
+                  }
+
+                  // 防抖保存函数
+                  let saveTimeout;
+                  noteTextarea.addEventListener('input', () => {
+                      // 显示保存中状态
+                      saveStatus.textContent = '保存中...';
+                      saveStatus.className = 'text-fog-600';
+
+                      // 清除之前的超时
+                      clearTimeout(saveTimeout);
+
+                      // 设置新的超时
+                      saveTimeout = setTimeout(() => {
+                          localStorage.setItem('quickNote', noteTextarea.value);
+                          saveStatus.textContent = '已保存';
+                          saveStatus.className = 'text-fog-400';
+                      }, 1000);
+                  });
+              }
+      // 专注时间（番茄钟）功能
+              function initFocusTimer() {
+                  const minutesElement = document.getElementById('timer-minutes');
+                  const secondsElement = document.getElementById('timer-seconds');
+                  const startBtn = document.getElementById('start-timer');
+                  const pauseBtn = document.getElementById('pause-timer');
+                  const resetBtn = document.getElementById('reset-timer');
+
+                  let totalSeconds = 45 * 60; // 45分钟
+                  let timerInterval = null;
+                  let isRunning = false;
+
+                  function updateTimerDisplay() {
+                      const minutes = Math.floor(totalSeconds / 60);
+                      const seconds = totalSeconds % 60;
+
+                      minutesElement.textContent = minutes.toString().padStart(2, '0');
+                      secondsElement.textContent = seconds.toString().padStart(2, '0');
+
+                      // 时间结束时提醒
+                      if (totalSeconds <= 0) {
+                          clearInterval(timerInterval);
+                          isRunning = false;
+                          startBtn.disabled = false;
+                          pauseBtn.disabled = true;
+                          playAlarm();
+                      }
+                  }
+
+                  function playAlarm() {
+                      // 创建音频上下文播放提示音
+                      try {
+                          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                          const oscillator = audioContext.createOscillator();
+                          const gainNode = audioContext.createGain();
+
+                          oscillator.connect(gainNode);
+                          gainNode.connect(audioContext.destination);
+
+                          oscillator.type = 'sine';
+                          oscillator.frequency.setValueAtTime(880, audioContext.currentTime);
+                          gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+
+                          oscillator.start();
+                          oscillator.stop(audioContext.currentTime + 0.5);
+                      } catch (e) {
+                          console.log("无法播放提示音:", e);
+                          alert("专注时间结束！");
+                      }
+                  }
+
+                  startBtn.addEventListener('click', () => {
+                      if (!isRunning) {
+                          isRunning = true;
+                          startBtn.disabled = true;
+                          pauseBtn.disabled = false;
+
+                          timerInterval = setInterval(() => {
+                              if (totalSeconds > 0) {
+                                  totalSeconds--;
+                                  updateTimerDisplay();
+                              } else {
+                                  clearInterval(timerInterval);
+                                  isRunning = false;
+                                  startBtn.disabled = false;
+                                  pauseBtn.disabled = true;
+                              }
+                          }, 1000);
+                      }
+                  });
+
+                  pauseBtn.addEventListener('click', () => {
+                      clearInterval(timerInterval);
+                      isRunning = false;
+                      startBtn.disabled = false;
+                      pauseBtn.disabled = true;
+                  });
+
+                  resetBtn.addEventListener('click', () => {
+                      clearInterval(timerInterval);
+                      isRunning = false;
+                      totalSeconds = 45 * 60;
+                      updateTimerDisplay();
+                      startBtn.disabled = false;
+                      pauseBtn.disabled = true;
+                  });
+
+                  // 初始化显示
+                  updateTimerDisplay();
+              }
+
+              // 计算器功能
+              function initCalculator() {
+                  const display = document.getElementById('calculator-display');
+                  const buttons = document.querySelectorAll('.calc-btn');
+                  const clearBtn = document.getElementById('clear-calculator');
+
+                  buttons.forEach(button => {
+                      button.addEventListener('click', () => {
+                          const value = button.dataset.value;
+
+                          if (value === '=') {
+                              try {
+                                  // 使用eval计算结果，实际应用中应使用更安全的计算方式
+                                  let result = eval(display.value.replace('×', '*').replace('÷', '/'));
+                                  display.value = result;
+                              } catch (e) {
+                                  display.value = '错误';
+                              }
+                          } else {
+                              if (display.value === '0' || display.value === '错误') {
+                                  display.value = value;
+                              } else {
+                                  display.value += value;
+                              }
+                          }
+                      });
+                  });
+
+                  clearBtn.addEventListener('click', () => {
+                      display.value = '0';
+                  });
+
+      // 初始化显示
+                  display.value = '0';
+
+                  // 计算器折叠功能
+                  const toggleBtn = document.getElementById('toggle-calculator');
+                  const calculatorContent = document.getElementById('calculator-content');
+                  const calculatorIcon = document.getElementById('calculator-icon');
+                  let isExpanded = true;
+
+                  toggleBtn.addEventListener('click', () => {
+                      isExpanded = !isExpanded;
+
+                      if (isExpanded) {
+                          calculatorContent.style.display = 'block';
+                          calculatorIcon.classList.remove('fa-chevron-up');
+                          calculatorIcon.classList.add('fa-chevron-down');
+                      } else {
+                          calculatorContent.style.display = 'none';
+                          calculatorIcon.classList.remove('fa-chevron-down');
+                          calculatorIcon.classList.add('fa-chevron-up');
+                      }
+                  });
+              }
+    </script>
+  </body>
+</html>
